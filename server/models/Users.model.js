@@ -1,4 +1,5 @@
 const { DataTypes } = require("sequelize")
+const bcrypt = require("bcryptjs")
 const sequelize = require("../database/Postgres.database")
 
 const User = sequelize.define(
@@ -23,8 +24,8 @@ const User = sequelize.define(
         }
     },
     {
-        timestamps: false
-    }
+        timestamps: false,
+    },
 )
 
 //console.log(User === sequelize.models.User);

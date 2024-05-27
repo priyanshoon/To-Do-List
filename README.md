@@ -1,5 +1,7 @@
 # To-Do App in Express.js, Postgresql and React.js
 
+**Note: This project is for only learning purpose and nothing eles;**
+
 ### TODO:
 #### On Server Side
 - [X] Create Registration POST '/api/register'

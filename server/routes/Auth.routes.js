@@ -33,7 +33,7 @@ router.post("/register", async (req, res) => {
         }
     } else {
         console.log(exist_email)
-        res.status(301).json({message: "Email already exist"})
+        res.status(401).json({message: "Email already exist"})
     }
 });
 
@@ -49,10 +49,10 @@ router.post("/login", async (req, res) => {
             if (result_password) {
                 res.status(200).json({message: "you are logged in successfully"})
             } else {
-                res.status(300).json({message: "password is incorrect"})
+                res.status(401).json({message: "invalid login credentials"})
             }
         } else {
-            res.status(301).json({message: "email does not exist"})
+            res.status(301).json({message: "invalid login credentials"})
         }
     } catch (error) {
         console.log(error)

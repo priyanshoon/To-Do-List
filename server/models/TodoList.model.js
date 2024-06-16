@@ -34,4 +34,9 @@ const TodoList = sequelize.define(
 
 //https://sequelize.org/docs/v6/core-concepts/assocs/
 
+User.hasMany(TodoList, {
+    foreignKey: 'user_id',
+    onDelete: 'CASCADE'
+})
+
 module.exports = TodoList

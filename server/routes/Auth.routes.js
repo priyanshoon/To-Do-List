@@ -13,7 +13,6 @@ router.post("/register", async (req, res) => {
     }
     if (email.length > 100) {
         res.status(422).json({error: "email should be in under 100 char"})
-        return
     }
     if (exist_email == null) {
         try {

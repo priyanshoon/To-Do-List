@@ -2,6 +2,43 @@
 
 **Note: This project is for only learning purpose and nothing eles;**
 
+## API Endpoints
+
+### Registration
+
+- POST `/api/register`
+    - Request Body:
+        ```json
+        {
+            "name": "name",
+            "email": "email",
+            "password": "password"
+        }
+        ```
+    - Response:
+        ```json
+        {
+            "status": "success",
+            "message": "User Registered Successfully"
+        }
+        ```
+- POST `/api/login`
+    - Request Body:
+        ```json
+        {
+            "email": "email",
+            "password": "password"
+        }
+        ```
+    - Response:
+        ```json
+        {
+            "status": "success",
+            "message": "User Logged In Successfully"
+        }
+        ```
+
+
 ### TODO:
 #### On Server Side
 - [X] Create Registration POST '/api/register'

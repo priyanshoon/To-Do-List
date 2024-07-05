@@ -16,6 +16,10 @@ async function db_conn() {
 
 db_conn();
 
+// sequelize.sync({ force: true }).then(() => {
+//     console.log("drop and resync db");
+// });
+
 //sequelize.sync();
 
 module.exports = sequelize;

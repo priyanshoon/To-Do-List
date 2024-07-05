@@ -4,40 +4,61 @@
 
 ## API Endpoints
 
-### Registration
-
-- POST `/api/register`
+- [X] POST '/api/register'
     - Request Body:
-        ```json
-        {
-            "name": "name",
-            "email": "email",
-            "password": "password"
-        }
-        ```
+    ```json
+    {
+        "name": "name",
+        "email": "email",
+        "password": "password"
+    }
+    ```
     - Response:
-        ```json
-        {
-            "status": "success",
-            "message": "User Registered Successfully"
-        }
-        ```
-- POST `/api/login`
+    ```json
+    {
+        "status": "success",
+        "message": "User Registered Successfully"
+    }
+    ```
+- [X] POST '/api/login'
     - Request Body:
-        ```json
-        {
-            "email": "email",
-            "password": "password"
-        }
-        ```
+    ```json
+    {
+        "email": "email",
+        "password": "password"
+    }
+    ```
     - Response:
-        ```json
-        {
-            "status": "success",
-            "message": "User Logged In Successfully"
-        }
-        ```
-
+    ```json
+    {
+        "status": "success",
+        "message": "User Logged In Successfully",
+    }
+    ```
+- [ ] GET '/api/todo-list/:user_id'
+    - Request Body:
+    ```json
+    {
+        "user_id": "user_id"
+    }
+    ```
+    - Response:
+    ```json
+    {
+        "status": "success",
+        "message": "Todo List Fetched Successfully",
+        "data": [
+            {
+                "id": "id",
+                "title": "title",
+                "description": "description",
+                "status": "status",
+                "created_at": "created_at",
+                "updated_at": "updated_at"
+            }
+        ]
+    }
+    ```
 
 ### TODO:
 #### On Server Side

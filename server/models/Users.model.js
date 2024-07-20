@@ -4,7 +4,7 @@ const sequelize = require("../database/Postgres.database")
 const User = sequelize.define(
     'users',
     {
-        user_id: {
+        id: {
             type: DataTypes.UUID,
             defaultValue: DataTypes.UUIDV4,
             primaryKey: true,

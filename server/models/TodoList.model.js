@@ -3,11 +3,12 @@ const { DataTypes } = require("sequelize")
 const User = require("./Users.model")
 
 const TodoList = sequelize.define(
-    'todo_list',
+    'todo_lists',
     {
-        todo_id: {
+        id: {
             type: DataTypes.UUID,
             defaultValue: DataTypes.UUIDV4,
+            primaryKey: true,
             allowNull: false
         },
         user_id: {
@@ -15,7 +16,7 @@ const TodoList = sequelize.define(
             defaultValue: DataTypes.UUIDV4,
             references: {
                 model: 'users',
-                key: 'user_id'
+                key: 'id'
             },
             allowNull: false
         },

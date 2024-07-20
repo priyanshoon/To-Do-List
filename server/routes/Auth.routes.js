@@ -50,8 +50,8 @@ router.post("/login", async (req, res) => {
             const result_password = bcrypt.compareSync(password, password_hash.getDataValue('password'))
 
             if (result_password) {
-                const token = jwttoken.tokens(user_id = user.user_id);
-                res.status(200).json({ message: "you are logged in successfully", accessToken: token })
+                const token = jwttoken.tokens(user_id = user.id);
+                res.status(200).json({ message: "you are logged in successfully", userID: user.id, accessToken: token })
             } else {
                 res.status(401).json({ message: "invalid login credentials" })
             }

@@ -20,6 +20,6 @@ db_conn();
 //     console.log("drop and resync db");
 // });
 
-//sequelize.sync();
+// sequelize.sync();
 
 module.exports = sequelize;

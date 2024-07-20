@@ -10,16 +10,20 @@ router.get("/user/:user_id", async (req, res) => {
     let user_id = req.params.user_id
     let exist_user;
     if (validator.isUUID(user_id)) {
-        exist_user = await User.findOne({ where: { id: user_id } })
-        if (exist_user != null) {
-            let todoData = await TodoList.findAll({ where: { user_id: user_id } })
-            let todo_item = []
-            for (let i = 0; i < todoData.length; i++) {
-                todo_item.push(todoData[i].dataValues.task)
+        try {
+            exist_user = await User.findOne({ where: { id: user_id } })
+            if (exist_user != null) {
+                let todoData = await TodoList.findAll({ where: { user_id: user_id } })
+                let todo_item = []
+                for (let i = 0; i < todoData.length; i++) {
+                    todo_item.push(todoData[i].dataValues.task)
+                }
+                res.status(200).json({ tasks: todo_item })
+            } else {
+                res.status(404).json({ error: "User not found" })
             }
-            res.status(200).json({ tasks: todo_item })
-        } else {
-            res.status(404).json({ error: "User not found" })
+        } catch (err) {
+            res.status(500).json({ error: "something went wrong!!!" })
         }
     } else {
         res.status(404).json({ error: "User not found" })
@@ -43,6 +47,11 @@ router.post("/user/:user_id", async (req, res) => {
     } else {
         res.status(404).json({ error: "something went wrong" })
     }
+})
+
+//  NOTE: Update for todo list (check whether completed or not)
+router.put("/user/:user_id", (req, res) => {
+
 })
 
 module.exports = router

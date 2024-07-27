@@ -14,7 +14,7 @@ const Navbar = () => {
             <a class="nav-link" href="/">Home<span class="sr-only">(current)</span></a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#">About</a>
+            <a class="nav-link" href="/about">About</a>
           </li>
         </ul>
         <button class="btn btn-outline-success mr-2 my-2 my-sm-0" type="submit">Login</button>

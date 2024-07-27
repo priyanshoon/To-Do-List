@@ -13,7 +13,7 @@ const TodoList = () => {
         <ul class="list-group">
           <li class="list-group-item">
             <span class="mr-4">Cras justo odio</span>
-            <button type="button" class="btn btn-info my-sm-0">Add Task</button>
+            <button type="button" class="btn btn-info ">Add Task</button>
           </li>
           <li class="list-group-item">Dapibus ac facilisis in</li>
           <li class="list-group-item">Morbi leo risus</li>

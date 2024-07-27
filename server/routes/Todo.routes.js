@@ -2,7 +2,6 @@ const express = require("express")
 const TodoList = require("../models/TodoList.model.js")
 const User = require("../models/Users.model.js")
 const validator = require("validator")
-const { default: isBoolean } = require("validator/lib/isBoolean.js")
 
 const router = express.Router()
 

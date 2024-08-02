@@ -1,25 +1,19 @@
 const TodoList = () => {
   return (
-    <div class="container">
+    <div className="container">
       <form>
-        <div class="form-row my-5">
-          <div class="col">
-            <input class="form-control" type="text" placeholder="Readonly input here…" />
-          </div>
-          <div class="col">
-            <button type="button" class="btn btn-info">Add Task</button>
+        <div className="form-row my-5">
+          <input className="form-control" type="text" placeholder="Enter your task my friend..." />
+          <button type="button" className="btn btn-success my-3">Add Task</button>
+        </div>
+        <div className="card">
+          <div className="card-body">
+            { /* <h4 className="card-title">Todo: 1</h4> */}
+            <p className="card-text" style={{ fontSize: 20 }}>I will make my own compiler for project and fun learning.</p>
+            <button type="button" className="btn btn-info mr-2">Edit Task</button>
+            <button type="button" className="btn btn-danger">Delete Task</button>
           </div>
         </div>
-        <ul class="list-group">
-          <li class="list-group-item">
-            <span class="mr-4">Cras justo odio</span>
-            <button type="button" class="btn btn-info ">Add Task</button>
-          </li>
-          <li class="list-group-item">Dapibus ac facilisis in</li>
-          <li class="list-group-item">Morbi leo risus</li>
-          <li class="list-group-item">Porta ac consectetur ac</li>
-          <li class="list-group-item">Vestibulum at eros</li>
-        </ul>
       </form>
     </div>
   )

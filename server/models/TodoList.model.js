@@ -26,6 +26,7 @@ const TodoList = sequelize.define(
         },
         completed: {
             type: DataTypes.BOOLEAN,
+            defaultValue: false
         }
     },
     {

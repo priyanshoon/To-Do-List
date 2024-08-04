@@ -1,70 +1,74 @@
 const express = require("express")
 const TodoList = require("../models/TodoList.model.js")
+const createError = require('http-errors');
 const User = require("../models/Users.model.js")
-const validator = require("validator")
+const { validateTodosParams, validateUUID, todoSchema } = require("../utils/validation_schema.js");
+const authenticateToken = require('../utils/jwt-helper.js');
 
 const router = express.Router()
 
 //  NOTE: Get Todo list
-router.get("/user/:user_id", async (req, res) => {
-    let user_id = req.params.user_id
-    let exist_user;
-    if (validator.isUUID(user_id)) {
-        try {
-            exist_user = await User.findOne({ where: { id: user_id } })
-            if (exist_user != null) {
-                let todoData = await TodoList.findAll({ where: { user_id: user_id } })
-                // let todo_item = []
-                // for (let i = 0; i < todoData.length; i++) {
-                //     todo_item.push(todoData[i].dataValues.task)
-                // }
-                res.status(200).json(todoData)
-            } else {
-                res.status(404).json({ error: "User not found" })
-            }
-        } catch (err) {
-            res.status(500).json({ error: "something went wrong!!!" })
-        }
-    } else {
-        res.status(404).json({ error: "User not found" })
+
+router.get("/user/:user_id", authenticateToken.authenticateToken, async (req, res, next) => {
+    try {
+        let resUserId = await validateUUID.validateAsync(req.params);
+        if (!resUserId) throw createError.NotFound("the username is not found")
+
+        const user_exist = await User.findOne({ where: { id: resUserId.user_id } });
+        if (!user_exist) throw createError.NotFound("The user is not found")
+
+        const todoData = await TodoList.findAll({ where: { user_id: resUserId.user_id } });
+        res.send({ todoData });
+    } catch (error) {
+        if (error.isJoi === true) return next(createError.BadRequest('Invalid UserID'));
+        next(error);
     }
 })
 
 //  NOTE: Post Todo list
-router.post("/user/:user_id", async (req, res) => {
-    let user_id = req.params.user_id
-    if (validator.isUUID(user_id)) {
-        try {
-            let todo = await TodoList.create({
-                user_id: user_id,
-                task: req.body.task,
-            })
-            await todo.save()
-            res.status(201).json({ message: "Todo has been added!" })
-        } catch (err) {
-            res.status(500).json({ error: "something went wrong!!!" })
-        }
-    } else {
-        res.status(404).json({ error: "something went wrong" })
+
+router.post("/user/:user_id", authenticateToken.authenticateToken, async (req, res, next) => {
+    try {
+        const resUserId = await validateUUID.validateAsync(req.params);
+        if (!resUserId) throw createError.NotFound("User not found");
+
+        const user_exist = await User.findOne({ where: { id: resUserId.user_id } });
+        if (!user_exist) throw createError.NotFound("User not found");
+
+        const todo = await TodoList.create({
+            user_id: resUserId.user_id,
+            task: req.body.task,
+        })
+        const saveTodo = await todo.save();
+        res.send({ saveTodo })
+    } catch (error) {
+        if (error.isJoi === true) return next(createError.BadRequest('Invalid UserID'));
+        next(error);
     }
 })
 
-//  NOTE: Delete for todo list (check whether completed or not)
-router.delete("/user/:user_id/todo/:todo_id", async (req, res) => {
-    let user_id = req.params.user_id
-    let todo_id = req.params.todo_id
-    if (validator.isUUID(user_id) && validator.isUUID(todo_id)) {
-        try {
-            let del_todo = await TodoList.destroy({ where: { id: todo_id } })
-            if (del_todo) {
-                res.status(200).json({ message: "The todo has been deleted" })
-            } else {
-                res.status(301).json({ message: "the todo does not exist" })
-            }
-        } catch (err) {
-            res.status(401).json({ error: "something went wrong" })
-        }
+//  NOTE: Edit Todo List
+
+router.put('/user/:user_id/todo/:todo_id', authenticateToken.authenticateToken, async (req, res, next) => {
+    try {
+        const result = await validateTodosParams.validateAsync(req.params)
+        if (!result) throw createError.Unauthorized("No a valid todo/user ID")
+
+        const validTodos = await todoSchema.validateAsync(req.body)
+        if (!validTodos) throw createError.Unauthorized("Not a valid input")
+
+        const todo = await TodoList.update(
+            { completed: validTodos.completed },
+            { where: { id: result.todo_id } }
+        )
+
+        res.send({ todo })
+
+    } catch (error) {
+        if (error.isJoi === true) return next(createError.BadRequest('Invalid UserID/TodoID'));
+        next(error);
     }
 })
+
 
 module.exports = router

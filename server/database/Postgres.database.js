@@ -22,4 +22,6 @@ db_conn();
 
 // sequelize.sync();
 
+// sequelize.close();
+
 module.exports = sequelize;

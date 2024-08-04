@@ -1,5 +1,6 @@
 const express = require("express");
 const bodyParser = require('body-parser');
+const createError = require('http-errors');
 require("dotenv").config();
 
 const app = express();
@@ -13,6 +14,20 @@ const todoPage = require("./routes/Todo.routes");
 
 app.use("/api/", authPage);
 app.use("/api/", todoPage);
+
+app.use(async (req, res, next) => {
+    next(createError.NotFound());
+})
+
+app.use((err, req, res, next) => {
+    res.status(err.status || 500);
+    res.send({
+        error: {
+            status: err.status || 500,
+            message: err.message
+        }
+    })
+})
 
 app.listen(PORT, (error) => {
     if (!error) {
